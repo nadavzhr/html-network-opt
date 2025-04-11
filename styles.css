@@ -13,6 +13,11 @@ body {
     padding: 2rem;
 }
 
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+}
+
 .hero {
     text-align: center;
     padding: 6rem 0;
@@ -199,42 +204,51 @@ body {
 
 .code-preview pre {
     margin-top: 1.5rem;
+    font-family: 'Fira Code', monospace;
 }
 
 .math-section {
     background: #f8fafc;
-    padding: 2rem;
+    padding: 2.5rem; /* Increased padding */
     border-radius: 1rem;
-    margin: 1rem 0;
+    margin: 2rem 0;
     overflow-x: auto;
     font-size: 1.1rem;
+    border: 1px solid rgba(66, 153, 225, 0.1); /* Subtle border */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03); /* Subtle shadow */
 }
 
-.math-section p {
-    margin: 1.5rem 0 0.5rem;
-    color: #2d3748;
+.dark-mode .math-section {
+    background: #2d3748; /* Darker background */
+    border-color: rgba(74, 85, 104, 0.2);
 }
 
 .math-section h3 {
     color: #2d3748;
-    margin: 2rem 0 1rem;
-    font-size: 1.4rem;
+    margin: 2rem 0 1.5rem; /* Adjusted margin */
+    font-size: 1.5rem; /* Slightly larger */
+    border-bottom: 2px solid #4299e1;
+    padding-bottom: 0.5rem;
+    display: inline-block;
 }
 
-.math-section h3:first-child {
-    margin-top: 0;
+.dark-mode .math-section h3 {
+    color: #63b3ed;
+    border-bottom-color: #63b3ed;
 }
 
 .constraint {
-    padding: 1rem;
+    padding: 1.5rem; /* Increased padding */
     background: #fff;
-    border-left: 4px solid #4299e1;
-    margin: 1rem 0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border-left: 5px solid #4299e1; /* Thicker border */
+    margin: 1.5rem 0;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.07);
+    border-radius: 0 8px 8px 0; /* Rounded corners on right */
 }
 
-.constraint .MathJax {
-    margin: 0.5rem 0;
+.dark-mode .constraint {
+    background: #1a202c;
+    border-left-color: #63b3ed;
 }
 
 /* Add spacing between multiple equations in the same constraint div */
@@ -288,17 +302,29 @@ body {
 }
 
 .challenge-card li {
-    padding: 0.5rem 0;
-    color: #4a5568;
-    display: flex;
-    align-items: flex-start;
+    padding-left: 0;
+    margin-left: 0;
+    position: relative;
+    padding-left: 1.2em;
 }
 
 .challenge-card li::before {
     content: '•';
     color: #4299e1;
     font-weight: bold;
-    margin-right: 0.5rem;
+    position: absolute;
+    left: 0;
+    top: 0.1em;
+    margin-right: 0;
+}
+
+.challenge-card ul li strong {
+    display: inline;
+}
+
+.challenge-card ul li p {
+    display: inline;
+    margin-left: 0.5em;
 }
 
 .challenge-card strong {
@@ -311,6 +337,14 @@ body {
 
 .challenge-card .image-preview img {
     max-height: 180px;
+}
+
+/* Challenges Grid Layout */
+.challenges-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Creates responsive columns */
+    gap: 2rem;
+    margin-top: 2rem;
 }
 
 .solution-intro {
@@ -570,6 +604,15 @@ body {
     background: #2d3748;
     border-color: #4a5568;
     color: #e2e8f0;
+}
+
+.dark-mode h1, 
+.dark-mode h2, 
+.dark-mode h3, 
+.dark-mode h4, 
+.dark-mode h5, 
+.dark-mode h6 {
+    font-family: 'Poppins', sans-serif;
 }
 
 .dark-mode .card h3,
@@ -1169,4 +1212,75 @@ html {
 /* Dark mode adjustments for mobile menu */
 .dark-mode .mobile-menu-btn span {
     background-color: #63b3ed;
+}
+
+/* Feature Grid Layout */
+.feature-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+    margin-top: 3rem;
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 2.5rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(66, 153, 225, 0.1);
+    transition: all 0.3s ease;
+    flex-direction: row; /* Ensure horizontal layout */
+}
+
+.dark-mode .feature-item {
+    background: rgba(45, 55, 72, 0.2);
+    border-color: rgba(74, 85, 104, 0.2);
+}
+
+.feature-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(66, 153, 225, 0.1);
+}
+
+.feature-item.reverse {
+    flex-direction: row-reverse; /* Reverse direction for alternating items */
+}
+
+.feature-icon {
+    flex: 0 0 300px; /* Fixed width for the icon/animation container */
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(66, 153, 225, 0.1);
+    border-radius: 1rem;
+    overflow: hidden; /* Ensure animations stay within bounds */
+}
+
+.dark-mode .feature-icon {
+    background: rgba(99, 179, 237, 0.1);
+}
+
+.feature-content {
+    flex: 1;
+    min-width: 0; /* Prevent content from overflowing */
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+    .feature-item,
+    .feature-item.reverse {
+        flex-direction: column;
+        text-align: center;
+        gap: 2rem;
+        padding: 2rem;
+    }
+
+    .feature-icon {
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
+    }
 }
