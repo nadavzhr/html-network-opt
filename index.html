@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Optimization in Distributed Systems</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <!-- External libraries -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <!-- Custom JavaScript -->
+    <script src="scripts.js" defer></script>
+</head>
+<body class="dark-mode">
+    <!-- Theme Toggle -->
+    <div class="theme-toggle">
+        <button id="themeToggle" aria-label="Toggle dark mode">
+            <span class="icon">☀️</span>
+        </button>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar"></div>
+
+    <!-- Navigation -->
+    <nav class="floating-nav">
+        <ul>
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#problem-definition">Problem Definition</a></li>
+            <li><a href="#solution">Solution</a></li>
+            <li><a href="#implementation">Implementation</a></li>
+            <li><a href="#demo">Demo</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Cursor -->
+    <div class="custom-cursor"></div>
+
+    <!-- Particles Container -->
+    <div id="particles-js"></div>
+
+    <div class="hero" id="overview">
+        <h1>Network Optimization in Distributed Systems</h1>
+        <p>An intelligent approach to optimizing communication patterns in distributed GPU systems using Mixed Integer Programming</p>
+    </div>
+
+    <div class="section" id="overview">
+        <h2>Project Overview</h2>
+        <div class="overview-details">
+            <p>A significant portion of AI model training and inference time is dedicated to communication between distributed computing components. Therefore, optimizing this communication process directly translates to optimizing the entire training/inference pipeline.</p>
+            
+            <div class="challenge-card">
+                <h4>Project Goal</h4>
+                <p>The primary objective of this project is to develop an optimization tool that performs routing optimization for messages in generic network topologies, taking into account:</p>
+                <ul>
+                    <li>Network bandwidth constraints for each link</li>
+                    <li>Latency characteristics of network connections</li>
+                    <li>Dynamic network conditions</li>
+                </ul>
+            </div>
+
+            <div class="challenge-card">
+                <h4>Key Features</h4>
+                <ul>
+                    <li>Accepts any network topology as input</li>
+                    <li>Considers collective operation requirements (e.g., AllGather, Broadcast)</li>
+                    <li>Processes initial conditions and completion criteria for message routing</li>
+                    <li>Outputs an optimal routing strategy divided into time steps</li>
+                    <li>Guarantees the fastest possible completion time while meeting all constraints</li>
+                </ul>
+            </div>
+
+            <div class="challenge-card">
+                <h4>Network Model Assumptions</h4>
+                <p>Our approach uses a synchronous network model, where:</p>
+                <ul>
+                    <li>Communication occurs in discrete time steps</li>
+                    <li>Network behavior is deterministic and synchronized</li>
+                    <li>Similar to approaches used in other works like TACOs (Topology-Aware Collective Algorithm Synthesizer)</li>
+                    <li>Each link's transfer time is modeled using α-β parameters</li>
+                </ul>
+                <p>While real-world networks operate asynchronously, the synchronous model provides a practical abstraction that has been proven effective in similar optimization problems. This modeling approach allows us to:</p>
+                <ul>
+                    <li>Find globally optimal solutions for complex routing problems</li>
+                    <li>Account for both bandwidth and latency constraints effectively</li>
+                    <li>Generate deterministic, reproducible communication schedules</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="section" id="problem-definition">
+        <div class="overview-details">
+            <h3>The Challenge of Distributed AI Training</h3>
+            <p>Modern AI training often requires distributing computation across multiple GPUs, sometimes spanning different physical machines. During training, these GPUs need to frequently exchange large amounts of data (like gradients and model parameters) to maintain model consistency. However, this communication presents several complex challenges:</p>
+            
+            <div class="challenge-card">
+                <h4>Physical Network Constraints</h4>
+                <p>Real-world networks have two fundamental limitations:</p>
+                <ul>
+                    <li><strong>Latency (α)</strong>: Each network link has a base delay (measured in microseconds) for initiating data transfer, regardless of data size</li>
+                    <li><strong>Bandwidth (1/β)</strong>: Each physical connection has a maximum data transfer rate (measured in GB/s)</li>
+                </ul>
+                <div class="image-preview">
+                    <img src="images/latency_and_bandwidth.jpeg" alt="Network Links with Latency/Bandwidth Visualization" onclick="openLightbox(this.src)">
+                    <div class="image-preview-caption">
+                        Image Credits: <a href="https://www.dnsstuff.com/latency-throughput-bandwidth">DNSstuff</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="challenge-card">
+                <h4>Communication Complexity</h4>
+                <p>The optimization problem becomes particularly challenging because:</p>
+                <ul>
+                    <li>Multiple data chunks need to be transferred simultaneously</li>
+                    <li>Each network link has its limitations in terms of latency and bandwidth</li>
+                    <li>Different communication patterns (like AllGather or Broadcast) have different optimal solutions</li>
+                    <li>The problem scales exponentially with the number of GPUs and data chunks</li>
+                </ul>
+            </div>
+
+            <div class="challenge-card">
+                <h4>AI Training Requirements</h4>
+                <p>AI workloads have specific characteristics that make this problem crucial:</p>
+                <ul>
+                    <li>Large models require frequent synchronization of parameters across GPUs</li>
+                    <li>Training speed directly depends on communication efficiency</li>
+                    <li>Different layers of the model may need different communication patterns</li>
+                    <li>Communication overhead can dominate training time in large distributed setups</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="hardware-showcase">
+            <div class="image-grid">
+                <div class="showcase-item">
+                    <div class="image-preview">
+                        <img src="images/nvidia_hgx_h200.jpg" alt="NVIDIA H200 GPU" onclick="openLightbox(this.src)">
+                        <div class="image-preview-caption">
+                            The NVIDIA H200 GPU, featuring 141GB of HBM3e memory and up to 4.8TB/s memory bandwidth
+                            <br>Image Credits: <a href="https://www.nvidia.com/en-us/data-center/h200/">NVIDIA</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="showcase-item">
+                    <div class="image-preview">
+                        <img src="images/nvidia_hgx_h200_cluster.jpg" alt="NVIDIA H200 GPU Cluster" onclick="openLightbox(this.src)">
+                        <div class="image-preview-caption">
+                            A multi-node H200 cluster setup, demonstrating the need for efficient inter-GPU communication optimization
+                            <br>Image Credits: <a href="https://www.nvidia.com/en-sg/data-center/dgx-gh200/">NVIDIA</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="showcase-description">Modern AI training leverages powerful hardware like the NVIDIA H200 GPUs shown above. When multiple such GPUs are connected in a cluster, the communication patterns between them become crucial for overall training performance. Our optimization framework aims to maximize the efficiency of data transfers in such high-performance computing environments.</p>
+        </div>
+
+        <div class="solution-intro" id="solution">
+            <h3>Our Approach</h3>
+            <p>We developed a Mixed Integer Programming solution that:</p>
+            <ul>
+                <li>Considers both latency and bandwidth constraints for each network link</li>
+                <li>Optimizes the order and timing of data transfers</li>
+                <li>Finds globally optimal solutions for different communication patterns</li>
+                <li>Minimizes total communication time while ensuring data consistency</li>
+            </ul>
+            <p>By modeling this as an optimization problem, we can find the most efficient way to route data through the network, significantly reducing the communication overhead in distributed AI training.</p>
+        </div>
+    </div>
+
+    <div class="section" id="features">
+        <h2>Key Features</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>Topology Support</h3>
+                <p>Flexible support for various network topologies including:</p>
+                <ul>
+                    <li>Mesh Network</li>
+                    <li>Ring Network</li>
+                    <li>Fat-Tree Network</li>
+                </ul>
+                <div class="image-preview">
+                    <img src="images/network_topology_example.png" alt="Network Topology" onclick="openLightbox(this.src)">
+                    <div class="image-preview-caption">
+                        Supported network topologies for distributed GPU systems, Grid/Mesh example shown
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <h3>Communication Patterns</h3>
+                <p>Optimized collective operations including:</p>
+                <ul>
+                    <li>AllGather</li>
+                    <li>Broadcast</li>
+                    <li>Scatter/Gather</li>
+                </ul>
+                <div class="image-preview">
+                    <img src="images/communication_pattern.png" alt="Communication Patterns" onclick="openLightbox(this.src)">
+                    <div class="image-preview-caption">
+                        Visualization of different communication patterns and their data flow, AllGather example shown
+                        <br> Image Credits: <a href="https://images.nvidia.com/events/sc15/pdfs/NCCL-Woolley.pdf">NVIDIA</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <h3>Optimization Model</h3>
+                <p>Advanced Mixed Integer Programming model featuring:</p>
+                <ul>
+                    <li>Time-step optimization</li>
+                    <li>Bandwidth constraints</li>
+                    <li>Latency considerations</li>
+                </ul>
+                <div class="image-preview">
+                    <img src="images/system_scheme.png" alt="System Architecture and Network Model" onclick="openLightbox(this.src)">
+                    <div class="image-preview-caption">
+                        System architecture showing network links with their associated latency (α) and bandwidth (1/β) parameters
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section" id="implementation">
+        <h2>Implementation</h2>
+        <p>The system is implemented using Python with PySCIPOpt for Mixed Integer Programming optimization. The core of our solution lies in the mathematical formulation of network behavior constraints.</p>
+        
+        <div class="math-section">
+            <h3>Variables</h3>
+            <p>Our model uses the following decision variables:</p>
+            <div class="constraint">
+                \[ x_{i,j,d,t} \in \{0,1\} : \text{Transfer of chunk } d \text{ from node } i \text{ to } j \text{ at time } t \]
+                \[ y_{j,d,t} \in \{0,1\} : \text{Whether node } j \text{ has received chunk } d \text{ by time } t \]
+                \[ T_t \in \mathbb{R}^+ : \text{Time cost for step } t \]
+            </div>
+
+            <h3>Step Costs</h3>
+            <p>Let \(\Omega_t\) denote the set of edges (i,j) where any transfer occurred at step t. The cost of each step is determined by the "slowest" transfer in that step:</p>
+            <div class="constraint">
+                \[ \forall t: T_t = \max_{(i,j) \in \Omega_t} \{\alpha_{i,j} + chunk\_size \cdot \sum_d X_{i,j,d,t} \cdot \beta_{i,j}\} \]
+            </div>
+
+            <h3>Initial and Final Conditions</h3>
+            <p>For example, in an AllGather collective operation:</p>
+            <div class="constraint">
+                <p>Initial Condition (PRE-CONDITION):</p>
+                \[ Y_{j,d,0} = 1 \text{ iff } j = d \]
+                <p>This defines that each RANK starts with only its corresponding data chunk.</p>
+                
+                <p>Final Condition (POST-CONDITION):</p>
+                \[ \forall j,d: Y_{j,d,t_{max\_step}} = 1 \]
+                <p>This ensures that by the end of the process, all RANKs have all data chunks.</p>
+            </div>
+
+            <h3>Objective Function</h3>
+            <p>Minimize the total communication time across all steps:</p>
+            <div class="constraint">
+                \[ \min \sum_{t=0}^{max\_time\_steps} T_t \]
+            </div>
+
+            <h3>Complete Objective Function</h3>
+            <p>The project aims to find the optimal solution for Collective Operations in terms of completion time. Therefore, the objective function is:</p>
+            <div class="constraint">
+                \[ Objective: \min \sum_t T_t = \min_{X_{i,j,d,t}} \sum_t \max_{(i,j) \in \Omega_t} \{\alpha_{i,j} + chunk\_size \cdot \sum_d X_{i,j,d,t} \cdot \beta_{i,j}\} \]
+            </div>
+
+            <h3>Key Constraints</h3>
+            <p>1. Data Sending Constraint - A node can only send data it possesses:</p>
+            <div class="constraint">
+                \[ \forall i,j,d,t \geq 1: x_{i,j,d,t-1} \leq y_{i,d,t-1} \]
+            </div>
+
+            <p>2. Data Reception Constraint - Node receives data after transfer:</p>
+            <div class="constraint">
+                \[ \forall i,j,d,t \geq 1: x_{i,j,d,t-1} \leq y_{i,d,t} \]
+            </div>
+
+            <p>3. Data Persistence - Once a node receives data, it keeps it:</p>
+            <div class="constraint">
+                \[ \forall i,j,d,t \geq 1: y_{i,d,t-1} \leq y_{i,d,t} \]
+            </div>
+
+            <p>4. Consolidated Constraints:</p>
+            <div class="constraint">
+                \[ \forall i,j,d,t \geq 1: x_{i,j,d,t-1} \leq y_{i,d,t-1} \leq y_{i,d,t} \]
+            </div>
+
+            <p>5. Data Source Constraint - A node has data only if it received it from another node:</p>
+            <div class="constraint">
+                \[ \forall j,d,t \geq 1: y_{j,d,t} \leq \sum_{\tilde{t} < t} \sum_{j} x_{i,j,d,\tilde{t}} \]
+            </div>
+        </div>
+
+        <div class="code-preview">
+            <pre>class CMIPO:  # Collective MIP Optimizer
+    def __init__(self, simulation_parameters):
+        self.model = Model("Collective_MIP_Optimizer")
+        # Initialize optimization model with above constraints
+        ...</pre>
+        </div>
+    </div>
+
+    <div class="section" id="demo">
+        <h2>Network Animation Demo</h2>
+        <p>Watch how our optimization algorithm efficiently routes data through the network, minimizing communication overhead while maintaining data consistency:</p>
+        <div class="video-container">
+            <video class="video-placeholder" controls>
+                <source src="videos/Mesh_9_AllGather_Float_Link_Attributes.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <p class="video-caption">Example visualization of data transfer optimization in a mesh network topology, showing step-by-step communication patterns.</p>
+    </div>
+
+    <div class="section" id="contact">
+        <h2>Get in Touch</h2>
+        <div class="contact">
+            <p>Interested in learning more about this project or discussing potential collaborations? I'd love to hear from you!</p>
+            <div class="contact-links">
+                <a href="mailto:your.email@gmail.com" class="contact-link">
+                    <span class="icon">📧</span>
+                    nadavzhr@gmail.com
+                </a>
+                <a href="https://github.com/nadavzhr/CMIPO" class="contact-link" target="_blank">
+                    <span class="icon">📦</span>
+                    View Project on GitHub
+                </a>
+            </div>
+            <p class="farewell">Thanks for reading! Feel free to check out the implementation details or reach out with any questions 😊</p>
+        </div>
+    </div>
+</body>
+</html>
