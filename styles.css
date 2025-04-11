@@ -1249,14 +1249,22 @@ html {
 }
 
 .feature-icon {
-    flex: 0 0 300px; /* Fixed width for the icon/animation container */
+    flex: 0 0 300px;
     height: 300px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: rgba(66, 153, 225, 0.1);
     border-radius: 1rem;
-    overflow: hidden; /* Ensure animations stay within bounds */
+    overflow: hidden;
+    padding: 1rem;
+}
+
+.feature-icon dotlottie-player {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 300px;
+    max-height: 300px;
 }
 
 .dark-mode .feature-icon {
