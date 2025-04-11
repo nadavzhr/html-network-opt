@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Network Optimization in Distributed Systems</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fira+Code&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@600;700&family=Fira+Code&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <!-- External libraries -->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
@@ -12,6 +12,8 @@
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <!-- Lottie Player -->
+    <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
     <!-- Custom JavaScript -->
     <script src="scripts.js" defer></script>
 </head>
@@ -52,8 +54,20 @@
     <div id="particles-js"></div>
 
     <div class="hero" id="overview">
-        <h1>Network Optimization in Distributed Systems</h1>
-        <p>An intelligent approach to optimizing communication patterns in distributed GPU systems using Mixed Integer Programming</p>
+        <div class="hero-content">
+            <h1>Network Optimization in Distributed Systems</h1>
+            <p>An intelligent approach to optimizing communication patterns in distributed GPU systems using Mixed Integer Programming</p>
+        </div>
+        <div class="hero-animation">
+            <dotlottie-player 
+                src="animations/server_and_nodes_animation.json" 
+                background="transparent" 
+                speed="1" 
+                style="width: 300px; height: 300px; margin: 1rem auto;" 
+                loop 
+                autoplay>
+            </dotlottie-player>
+        </div>
     </div>
 
     <div class="section" id="overview">
@@ -106,41 +120,44 @@
             <h3>The Challenge of Distributed AI Training</h3>
             <p>Modern AI training often requires distributing computation across multiple GPUs, sometimes spanning different physical machines. During training, these GPUs need to frequently exchange large amounts of data (like gradients and model parameters) to maintain model consistency. However, this communication presents several complex challenges:</p>
             
-            <div class="challenge-card">
-                <h4>Physical Network Constraints</h4>
-                <p>Real-world networks have two fundamental limitations:</p>
-                <ul>
-                    <li><strong>Latency (α)</strong>: Each network link has a base delay (measured in microseconds) for initiating data transfer, regardless of data size</li>
-                    <li><strong>Bandwidth (1/β)</strong>: Each physical connection has a maximum data transfer rate (measured in GB/s)</li>
-                </ul>
-                <div class="image-preview">
-                    <img src="images/latency_and_bandwidth.jpeg" alt="Network Links with Latency/Bandwidth Visualization" onclick="openLightbox(this.src)">
-                    <div class="image-preview-caption">
-                        Image Credits: <a href="https://www.dnsstuff.com/latency-throughput-bandwidth">DNSstuff</a>
-                    </div>
+            <div class="challenges-grid"> 
+                <div class="challenge-card">
+                    <h4>Physical Network Constraints</h4>
+                    <p>Real-world networks have two fundamental limitations:</p>
+                    <ul>
+                        <li><strong>Latency (α)</strong>:<br>Each network link has a base delay (measured in microseconds) for initiating data transfer, regardless of data size</li>
+                        <li><strong>Bandwidth (1/β)</strong>:<br>Each physical connection has a maximum data transfer rate (measured in GB/s)</li>
+                    </ul>
                 </div>
-            </div>
 
-            <div class="challenge-card">
-                <h4>Communication Complexity</h4>
-                <p>The optimization problem becomes particularly challenging because:</p>
-                <ul>
-                    <li>Multiple data chunks need to be transferred simultaneously</li>
-                    <li>Each network link has its limitations in terms of latency and bandwidth</li>
-                    <li>Different communication patterns (like AllGather or Broadcast) have different optimal solutions</li>
-                    <li>The problem scales exponentially with the number of GPUs and data chunks</li>
-                </ul>
-            </div>
+                <div class="challenge-card">
+                    <h4>Communication Complexity</h4>
+                    <p>The optimization problem becomes particularly challenging because:</p>
+                    <ul>
+                        <li>Multiple data chunks need to be transferred simultaneously</li>
+                        <li>Each network link has its limitations in terms of latency and bandwidth</li>
+                        <li>Different communication patterns (like AllGather or Broadcast) have different optimal solutions</li>
+                        <li>The problem scales exponentially with the number of GPUs and data chunks</li>
+                    </ul>
+                </div>
 
-            <div class="challenge-card">
-                <h4>AI Training Requirements</h4>
-                <p>AI workloads have specific characteristics that make this problem crucial:</p>
-                <ul>
-                    <li>Large models require frequent synchronization of parameters across GPUs</li>
-                    <li>Training speed directly depends on communication efficiency</li>
-                    <li>Different layers of the model may need different communication patterns</li>
-                    <li>Communication overhead can dominate training time in large distributed setups</li>
-                </ul>
+                <div class="challenge-card">
+                    <h4>AI Training Requirements</h4>
+                    <p>AI workloads have specific characteristics that make this problem crucial:</p>
+                    <ul>
+                        <li>Large models require frequent synchronization of parameters across GPUs</li>
+                        <li>Training speed directly depends on communication efficiency</li>
+                        <li>Different layers of the model may need different communication patterns</li>
+                        <li>Communication overhead can dominate training time in large distributed setups</li>
+                    </ul>
+                </div>
+            </div> <!-- End of challenges-grid -->
+
+            <div class="image-preview centered-image-preview">
+                <img src="images/latency_and_bandwidth.jpeg" alt="Network Links with Latency/Bandwidth Visualization" onclick="openLightbox(this.src)">
+                <div class="image-preview-caption">
+                    Image Credits: <a href="https://www.dnsstuff.com/latency-throughput-bandwidth">DNSstuff</a>
+                </div>
             </div>
         </div>
 
@@ -183,50 +200,37 @@
 
     <div class="section" id="features">
         <h2>Key Features</h2>
-        <div class="grid">
-            <div class="card">
-                <h3>Topology Support</h3>
-                <p>Flexible support for various network topologies including:</p>
-                <ul>
-                    <li>Mesh Network</li>
-                    <li>Ring Network</li>
-                    <li>Fat-Tree Network</li>
-                </ul>
-                <div class="image-preview">
-                    <img src="images/network_topology_example.png" alt="Network Topology" onclick="openLightbox(this.src)">
-                    <div class="image-preview-caption">
-                        Supported network topologies for distributed GPU systems, Grid/Mesh example shown
+        <div class="feature-grid">
+            <div class="feature-item">
+                <div class="feature-icon">[ICON: Topology]</div>
+                <div class="feature-content">
+                    <h3>Topology Support</h3>
+                    <p>Flexible support for various network topologies including Mesh, Ring, and Fat-Tree networks.</p>
+                    <div class="image-preview">
+                        <img src="images/network_topology_example.png" alt="Network Topology" onclick="openLightbox(this.src)">
+                        <div class="image-preview-caption">Grid/Mesh example shown</div>
                     </div>
                 </div>
             </div>
-            <div class="card">
-                <h3>Communication Patterns</h3>
-                <p>Optimized collective operations including:</p>
-                <ul>
-                    <li>AllGather</li>
-                    <li>Broadcast</li>
-                    <li>Scatter/Gather</li>
-                </ul>
-                <div class="image-preview">
-                    <img src="images/communication_pattern.png" alt="Communication Patterns" onclick="openLightbox(this.src)">
-                    <div class="image-preview-caption">
-                        Visualization of different communication patterns and their data flow, AllGather example shown
-                        <br> Image Credits: <a href="https://images.nvidia.com/events/sc15/pdfs/NCCL-Woolley.pdf">NVIDIA</a>
+            <div class="feature-item reverse">
+                <div class="feature-icon">[ICON: Patterns]</div>
+                <div class="feature-content">
+                    <h3>Communication Patterns</h3>
+                    <p>Optimized collective operations including AllGather, Broadcast, and Scatter/Gather.</p>
+                    <div class="image-preview">
+                        <img src="images/communication_pattern.png" alt="Communication Patterns" onclick="openLightbox(this.src)">
+                        <div class="image-preview-caption">AllGather example shown</div>
                     </div>
                 </div>
             </div>
-            <div class="card">
-                <h3>Optimization Model</h3>
-                <p>Advanced Mixed Integer Programming model featuring:</p>
-                <ul>
-                    <li>Time-step optimization</li>
-                    <li>Bandwidth constraints</li>
-                    <li>Latency considerations</li>
-                </ul>
-                <div class="image-preview">
-                    <img src="images/system_scheme.png" alt="System Architecture and Network Model" onclick="openLightbox(this.src)">
-                    <div class="image-preview-caption">
-                        System architecture showing network links with their associated latency (α) and bandwidth (1/β) parameters
+            <div class="feature-item">
+                <div class="feature-icon">[ICON: Optimization]</div>
+                <div class="feature-content">
+                    <h3>Optimization Model</h3>
+                    <p>Advanced Mixed Integer Programming model featuring time-step optimization, bandwidth constraints, and latency considerations.</p>
+                    <div class="image-preview">
+                        <img src="images/system_scheme.png" alt="System Architecture" onclick="openLightbox(this.src)">
+                        <div class="image-preview-caption">System architecture with α/β parameters</div>
                     </div>
                 </div>
             </div>
