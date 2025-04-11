@@ -148,6 +148,31 @@ function initFloatingNav() {
     });
 }
 
+// Mobile menu functionality
+const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+const navList = document.querySelector('.nav-list');
+
+mobileMenuBtn?.addEventListener('click', () => {
+    mobileMenuBtn.classList.toggle('active');
+    navList.classList.toggle('active');
+});
+
+// Close mobile menu when clicking a link
+document.querySelectorAll('.nav-list a').forEach(link => {
+    link.addEventListener('click', () => {
+        mobileMenuBtn.classList.remove('active');
+        navList.classList.remove('active');
+    });
+});
+
+// Close mobile menu when clicking outside
+document.addEventListener('click', (e) => {
+    if (!e.target.closest('.floating-nav')) {
+        mobileMenuBtn?.classList.remove('active');
+        navList?.classList.remove('active');
+    }
+});
+
 // Theme Toggle
 function initThemeToggle() {
     const themeToggle = document.getElementById('themeToggle');
