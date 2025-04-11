@@ -132,42 +132,76 @@ function initCustomCursor() {
     });
 }
 
-// Floating Navigation
-function initFloatingNav() {
-    let prevScrollpos = window.pageYOffset;
-    window.addEventListener('scroll', () => {
-        const currentScrollPos = window.pageYOffset;
-        const nav = document.querySelector('.floating-nav');
-        
-        if (currentScrollPos > 100) {
-            nav.style.top = prevScrollpos > currentScrollPos ? "0" : "-60px";
-        } else {
-            nav.style.top = "-60px";
+// Initialize Navigation Menu
+function initNavigation() {
+    const menuBtn = document.getElementById('menuToggle');
+    const nav = document.querySelector('.main-nav');
+    const navLinks = document.querySelectorAll('.nav-menu a');
+    
+    if (!menuBtn) return;
+
+    menuBtn.addEventListener('click', () => {
+        nav.classList.toggle('active');
+        menuBtn.setAttribute('aria-expanded', nav.classList.contains('active'));
+    });
+
+    // Close menu when clicking a link
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            nav.classList.remove('active');
+            menuBtn.setAttribute('aria-expanded', 'false');
+        });
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!nav.contains(e.target) && nav.classList.contains('active')) {
+            nav.classList.remove('active');
+            menuBtn.setAttribute('aria-expanded', 'false');
         }
-        prevScrollpos = currentScrollPos;
+    });
+
+    // Handle escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && nav.classList.contains('active')) {
+            nav.classList.remove('active');
+            menuBtn.setAttribute('aria-expanded', 'false');
+        }
     });
 }
 
 // Mobile Menu initialization
 function initMobileMenu() {
-    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-    const nav = document.querySelector('.floating-nav');
+    const menuBtn = document.querySelector('.mobile-menu-btn');
+    const header = document.querySelector('header');
+    const nav = document.querySelector('nav');
+    
+    if (!menuBtn) return;
 
-    mobileMenuBtn.addEventListener('click', () => {
-        nav.classList.toggle('active');
+    menuBtn.setAttribute('aria-expanded', 'false');
+    menuBtn.setAttribute('aria-label', 'Open menu');
+
+    menuBtn.addEventListener('click', () => {
+        const isOpen = header.classList.toggle('mobile-menu-open');
+        menuBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        menuBtn.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
     });
 
-    // Close mobile menu when clicking on a link
-    document.querySelectorAll('.floating-nav a').forEach(link => {
-        link.addEventListener('click', () => {
-            nav.classList.remove('active');
-        });
-    });
-
-    // Close mobile menu when clicking outside
+    // Close menu when clicking outside
     document.addEventListener('click', (e) => {
-        if (!nav.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-            nav.classList.remove('active');
+        if (!header.contains(e.target) && header.classList.contains('mobile-menu-open')) {
+            header.classList.remove('mobile-menu-open');
+            menuBtn.setAttribute('aria-expanded', 'false');
+            menuBtn.setAttribute('aria-label', 'Open menu');
+        }
+    });
+
+    // Handle escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && header.classList.contains('mobile-menu-open')) {
+            header.classList.remove('mobile-menu-open');
+            menuBtn.setAttribute('aria-expanded', 'false');
+            menuBtn.setAttribute('aria-label', 'Open menu');
         }
     });
 }
@@ -200,7 +234,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initAnimations();
     initProgressBar();
     initCustomCursor();
-    initFloatingNav();
+    initNavigation(); // Replace initFloatingNav with initNavigation
     initThemeToggle();
     initSmoothScroll();
     initMobileMenu();
