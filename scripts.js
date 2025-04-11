@@ -228,14 +228,33 @@ function initSmoothScroll() {
     });
 }
 
+// Initialize zigzag layout animations
+function initZigzagAnimations() {
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        },
+        { threshold: 0.2 }
+    );
+
+    document.querySelectorAll('.zigzag-item').forEach(item => {
+        observer.observe(item);
+    });
+}
+
 // Initialize all functionality when the DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     initParticles();
     initAnimations();
     initProgressBar();
     initCustomCursor();
-    initNavigation(); // Replace initFloatingNav with initNavigation
+    initNavigation();
     initThemeToggle();
     initSmoothScroll();
     initMobileMenu();
+    initZigzagAnimations();
 });
