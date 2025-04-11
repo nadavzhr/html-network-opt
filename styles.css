@@ -718,6 +718,37 @@ h1, h2, h3, h4, h5, h6 {
     color: #a0aec0;
 }
 
+.dark-mode .feature-item {
+    background: rgba(45, 55, 72, 0.2);
+    border-color: rgba(74, 85, 104, 0.2);
+}
+
+.feature-content {
+    flex: 1;
+    min-width: 0;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 2rem;
+    border: 1px solid rgba(66, 153, 225, 0.1);
+    backdrop-filter: blur(8px);
+    transition: transform 0.3s ease;
+}
+
+.dark-mode .feature-content {
+    background: #E2E8F0;
+}
+
+.dark-mode .feature-content h3,
+.dark-mode .feature-content h4 {
+    color: #333333;
+    font-weight: bold;
+}
+
+.dark-mode .feature-content p,
+.dark-mode .feature-content li {
+    color: #333333;
+}
+
 /* Particles Background */
 #particles-js {
     position: fixed;
@@ -1311,6 +1342,21 @@ html {
     border: 1px solid rgba(66, 153, 225, 0.1);
     backdrop-filter: blur(8px);
     transition: transform 0.3s ease;
+}
+
+.dark-mode .feature-content {
+    background: #E2E8F0;
+}
+
+.dark-mode .feature-content h3,
+.dark-mode .feature-content h4 {
+    color: #333333;
+    font-weight: bold;
+}
+
+.dark-mode .feature-content p,
+.dark-mode .feature-content li {
+    color: #333333;
 }
 
 /* Light mode colors */
