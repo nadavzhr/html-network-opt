@@ -956,6 +956,10 @@ html {
         -webkit-overflow-scrolling: touch;
         font-size: 0.9rem;
     }
+
+    .custom-cursor {
+        display: none;
+    }
 }
 
 /* Additional breakpoint for very small devices */
