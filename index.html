@@ -65,42 +65,55 @@
         <div class="overview-details">
             <p>A significant portion of AI model training and inference time is dedicated to communication between distributed computing components. Therefore, optimizing this communication process directly translates to optimizing the entire training/inference pipeline.</p>
             
-            <div class="challenge-card">
-                <h4>Project Goal</h4>
-                <p>The primary objective of this project is to develop an optimization tool that performs routing optimization for messages in generic network topologies, taking into account:</p>
-                <ul>
-                    <li>Network bandwidth constraints for each link</li>
-                    <li>Latency characteristics of network connections</li>
-                    <li>Dynamic network conditions</li>
-                </ul>
-            </div>
+            <div class="zigzag-layout">
+                <div class="zigzag-item" data-aos="fade-right">
+                    <div class="icon-wrapper">🎯</div>
+                    <div class="content">
+                        <h4>Project Goal</h4>
+                        <p>The primary objective of this project is to develop an optimization tool that performs routing optimization for messages in generic network topologies, taking into account:</p>
+                        <ul>
+                            <li>Network bandwidth constraints for each link</li>
+                            <li>Latency characteristics of network connections</li>
+                            <li>Dynamic network conditions</li>
+                        </ul>
+                    </div>
+                </div>
 
-            <div class="challenge-card">
-                <h4>Key Features</h4>
-                <ul>
-                    <li>Accepts any network topology as input</li>
-                    <li>Considers collective operation requirements (e.g., AllGather, Broadcast)</li>
-                    <li>Processes initial conditions and completion criteria for message routing</li>
-                    <li>Outputs an optimal routing strategy divided into time steps</li>
-                    <li>Guarantees the fastest possible completion time while meeting all constraints</li>
-                </ul>
-            </div>
+                <div class="zigzag-item reverse" data-aos="fade-left">
+                    <div class="icon-wrapper">⚡</div>
+                    <div class="content">
+                        <h4>Key Features</h4>
+                        <ul>
+                            <li>Accepts any network topology as input</li>
+                            <li>Considers collective operation requirements</li>
+                            <li>Processes initial conditions and completion criteria</li>
+                            <li>Outputs an optimal routing strategy</li>
+                            <li>Guarantees the fastest possible completion time</li>
+                        </ul>
+                    </div>
+                </div>
 
-            <div class="challenge-card">
-                <h4>Network Model Assumptions</h4>
-                <p>Our approach uses a synchronous network model, where:</p>
-                <ul>
-                    <li>Communication occurs in discrete time steps</li>
-                    <li>Network behavior is deterministic and synchronized</li>
-                    <li>Similar to approaches used in other works like TACOs (Topology-Aware Collective Algorithm Synthesizer)</li>
-                    <li>Each link's transfer time is modeled using α-β parameters</li>
-                </ul>
-                <p>While real-world networks operate asynchronously, the synchronous model provides a practical abstraction that has been proven effective in similar optimization problems. This modeling approach allows us to:</p>
-                <ul>
-                    <li>Find globally optimal solutions for complex routing problems</li>
-                    <li>Account for both bandwidth and latency constraints effectively</li>
-                    <li>Generate deterministic, reproducible communication schedules</li>
-                </ul>
+                <div class="zigzag-item" data-aos="fade-right">
+                    <div class="icon-wrapper">🔍</div>
+                    <div class="content">
+                        <h4>Network Model</h4>
+                        <p>Our approach uses a synchronous network model, where:</p>
+                        <ul>
+                            <li>Communication occurs in discrete time steps</li>
+                            <li>Network behavior is deterministic</li>
+                            <li>Similar to TACOs approach</li>
+                            <li>Each link's transfer time is modeled using α-β parameters</li>
+                        </ul>
+                        <div class="additional-info">
+                            <p>While real-world networks operate asynchronously, the synchronous model provides a practical abstraction that has been proven effective in similar optimization problems. This modeling approach allows us to:</p>
+                            <ul>
+                                <li>Find globally optimal solutions for complex routing problems</li>
+                                <li>Account for both bandwidth and latency constraints effectively</li>
+                                <li>Generate deterministic, reproducible communication schedules</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -143,38 +156,54 @@
                 </div>
             </div> <!-- End of challenges-grid -->
 
-            <div class="image-preview centered-image-preview">
-                <img src="images/latency_and_bandwidth.jpeg" alt="Network Links with Latency/Bandwidth Visualization" onclick="openLightbox(this.src)">
-                <div class="image-preview-caption">
-                    Image Credits: <a href="https://www.dnsstuff.com/latency-throughput-bandwidth">DNSstuff</a>
+            <div class="featured-image-section">
+                <div class="image-container">
+                    <div class="image-wrapper">
+                        <img src="images/latency_and_bandwidth.jpeg" alt="Network Links with Latency/Bandwidth Visualization" onclick="openLightbox(this.src)">
+                    </div>
+                    <div class="image-overlay"></div>
+                    <div class="image-caption">
+                        Image Credits: <a href="https://javachallengers.com/latency-and-throughput/">JavaChallengers</a>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="hardware-showcase">
-            <div class="image-grid">
-                <div class="showcase-item">
-                    <div class="image-preview">
-                        <img src="images/nvidia_hgx_h200.jpg" alt="NVIDIA H200 GPU" onclick="openLightbox(this.src)">
-                        <div class="image-preview-caption">
-                            The NVIDIA H200 GPU, featuring 141GB of HBM3e memory and up to 4.8TB/s memory bandwidth
-                            <br>Image Credits: <a href="https://www.nvidia.com/en-us/data-center/h200/">NVIDIA</a>
+        <div class=hardware-showcase>
+            <div class="staggered-grid">
+                <div class="showcase-card left">
+                    <div class="card-content">
+                        <div class="image-wrapper">
+                            <img src="images/nvidia_hgx_h200.jpg" alt="NVIDIA H200 GPU" onclick="openLightbox(this.src)">
+                        </div>
+                        <div class="card-details">
+                            <h4>NVIDIA H200 GPU</h4>
+                            <p>Featuring 141GB of HBM3e memory and up to 4.8TB/s memory bandwidth</p>
+                            <div class="image-credits">
+                                Credits: <a href="https://www.nvidia.com/en-us/data-center/h200/">NVIDIA</a>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="showcase-item">
-                    <div class="image-preview">
-                        <img src="images/nvidia_hgx_h200_cluster.jpg" alt="NVIDIA H200 GPU Cluster" onclick="openLightbox(this.src)">
-                        <div class="image-preview-caption">
-                            A multi-node H200 cluster setup, demonstrating the need for efficient inter-GPU communication optimization
-                            <br>Image Credits: <a href="https://www.nvidia.com/en-sg/data-center/dgx-gh200/">NVIDIA</a>
+                
+                <div class="showcase-card right">
+                    <div class="card-content">
+                        <div class="image-wrapper">
+                            <img src="images/nvidia_hgx_h200_cluster.jpg" alt="NVIDIA H200 GPU Cluster" onclick="openLightbox(this.src)">
+                        </div>
+                        <div class="card-details">
+                            <h4>Multi-node H200 Cluster</h4>
+                            <p>A multi-node cluster setup, demonstrating the need for efficient inter-GPU communication optimization</p>
+                            <div class="image-credits">
+                                Credits: <a href="https://www.nvidia.com/en-sg/data-center/dgx-gh200/">NVIDIA</a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <p class="showcase-description">Modern AI training leverages powerful hardware like the NVIDIA H200 GPUs shown above. When multiple such GPUs are connected in a cluster, the communication patterns between them become crucial for overall training performance. Our optimization framework aims to maximize the efficiency of data transfers in such high-performance computing environments.</p>
         </div>
-
+        <hr>
         <div class="solution-intro" id="solution">
             <h3>Our Approach</h3>
             <p>We developed a Mixed Integer Programming solution that:</p>
@@ -194,6 +223,26 @@
             <div class="feature-item">
                 <div class="feature-icon">
                     <dotlottie-player 
+                        src="animations/process_animation.json" 
+                        background="transparent" 
+                        speed="1" 
+                        style="width: 100%; height: 100%;" 
+                        loop 
+                        autoplay>
+                    </dotlottie-player>
+                </div>
+                <div class="feature-content">
+                    <h3>Optimization Model</h3>
+                    <p>Advanced Mixed Integer Programming model featuring time-step optimization, bandwidth constraints, and latency considerations.</p>
+                    <div class="image-preview">
+                        <img src="images/system_scheme.png" alt="System Architecture" onclick="openLightbox(this.src)">
+                        <div class="image-preview-caption">System architecture with α/β parameters</div>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-item reverse">
+                <div class="feature-icon">
+                    <dotlottie-player 
                         src="animations/server_communication.json" 
                         background="transparent" 
                         speed="1" 
@@ -211,7 +260,7 @@
                     </div>
                 </div>
             </div>
-            <div class="feature-item reverse">
+            <div class="feature-item">
                 <div class="feature-icon">
                     <dotlottie-player 
                         src="animations/routing_animation.json" 
@@ -228,26 +277,6 @@
                     <div class="image-preview">
                         <img src="images/communication_pattern.png" alt="Communication Patterns" onclick="openLightbox(this.src)">
                         <div class="image-preview-caption">AllGather example shown</div>
-                    </div>
-                </div>
-            </div>
-            <div class="feature-item">
-                <div class="feature-icon">
-                    <dotlottie-player 
-                        src="animations/process_animation.json" 
-                        background="transparent" 
-                        speed="1" 
-                        style="width: 100%; height: 100%;" 
-                        loop 
-                        autoplay>
-                    </dotlottie-player>
-                </div>
-                <div class="feature-content">
-                    <h3>Optimization Model</h3>
-                    <p>Advanced Mixed Integer Programming model featuring time-step optimization, bandwidth constraints, and latency considerations.</p>
-                    <div class="image-preview">
-                        <img src="images/system_scheme.png" alt="System Architecture" onclick="openLightbox(this.src)">
-                        <div class="image-preview-caption">System architecture with α/β parameters</div>
                     </div>
                 </div>
             </div>
