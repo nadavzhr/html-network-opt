@@ -327,29 +327,29 @@
             </div>
 
             <h3>Key Constraints</h3>
+            <p>
+                <div class="constraint">
+                    \[ \forall\left(i,j,d,t\right)\in[0,N-1]^2\times[0,D-1]\times[1,T-1]: \]
+                </div>
+            </p>
             <p>1. Data Sending Constraint - A node can only send data it possesses:</p>
             <div class="constraint">
-                \[ \forall i,j,d,t \geq 1: x_{i,j,d,t-1} \leq y_{i,d,t-1} \]
+                \[ x_{i,j,d,t-1} \leq y_{i,d,t-1} \]
             </div>
 
             <p>2. Data Reception Constraint - Node receives data after transfer:</p>
             <div class="constraint">
-                \[ \forall i,j,d,t \geq 1: x_{i,j,d,t-1} \leq y_{i,d,t} \]
+                \[ x_{i,j,d,t-1} \leq y_{j,d,t} \]
             </div>
 
             <p>3. Data Persistence - Once a node receives data, it keeps it:</p>
             <div class="constraint">
-                \[ \forall i,j,d,t \geq 1: y_{i,d,t-1} \leq y_{i,d,t} \]
+                \[ y_{j,d,t-1} \leq y_{j,d,t} \]
             </div>
 
-            <p>4. Consolidated Constraints:</p>
+            <p>4. Data Source Constraint - A node has data only if it received it from another node:</p>
             <div class="constraint">
-                \[ \forall i,j,d,t \geq 1: x_{i,j,d,t-1} \leq y_{i,d,t-1} \leq y_{i,d,t} \]
-            </div>
-
-            <p>5. Data Source Constraint - A node has data only if it received it from another node:</p>
-            <div class="constraint">
-                \[ \forall j,d,t \geq 1: y_{j,d,t} \leq \sum_{\tilde{t} < t} \sum_{j} x_{i,j,d,\tilde{t}} \]
+                \[ y_{j,d,t} \leq \sum_{\tilde{t} < t} \sum_{j} x_{i,j,d,\tilde{t}} \]
             </div>
         </div>
 
