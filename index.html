@@ -349,7 +349,12 @@
 
             <p>4. Data Source Constraint - A node has data only if it received it from another node:</p>
             <div class="constraint">
-                \[ y_{j,d,t} \leq \sum_{\tilde{t} < t} \sum_{j} x_{i,j,d,\tilde{t}} \]
+                \[
+                y_{j,d,t} \leq \sum_{\tilde{t} < t} \sum_{i\in\mathcal{N}(j)} x_{i,j,d,\tilde{t}}
+                \]
+                \[
+                \text{where } \mathcal{N}(j) \text{ denotes the set of neighbors of node } j.
+                \]
             </div>
         </div>
 
